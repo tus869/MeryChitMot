@@ -1,0 +1,155 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: blanchedalmond;
+    position: relative; /* Quan trọng để định vị video */
+    overflow: hidden; /* Cắt phần video thừa nếu có */
+}
+
+/* CSS mới cho Video nền */
+.video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Giúp video phủ kín màn hình mà không bị méo */
+    z-index: 0; /* Nằm dưới cùng */
+}
+
+.pass {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 204, 213, 0.9)); /* Thêm độ trong suốt nhẹ để thấy video mờ ảo */
+    padding: 50px;
+    border-radius: 35px;
+    text-align: center;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    color: rgba(255, 0, 128, 0.7);
+    
+    position: relative; /* Để nổi lên trên video */
+    z-index: 1; /* Nằm trên video */
+    box-shadow: 0 0 20px rgba(0,0,0,0.2); /* Thêm bóng đổ cho đẹp */
+}
+
+.pass h2 {
+    font-size: 36px;
+    color: rgba(255, 0, 128, 0.7);
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+.input-group {
+    display: flex; 
+    gap: 10px;
+    align-items: center;
+    width: 100%; 
+    justify-content: center; 
+}
+
+/* Sửa lại selector ID cho đúng với HTML (bạn dùng id="passwordInput" nhưng CSS cũ dùng #fname) */
+#passwordInput { 
+    color: rgba(255, 0, 128, 0.7);
+    background-color: white; 
+    border: 2px solid rgba(255, 0, 128, 0.3);
+    padding: 10px 15px; 
+    box-sizing: border-box;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#passwordInput::placeholder {
+    color: #999999;
+    font-style: italic;
+}
+
+.pass button[type="submit"] {
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: #f79eff;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.pass button[type="submit"]:hover {
+    background-color: #ff0080; 
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 0, 128, 0.7);
+    color: white;
+}
+
+.modal-overlay {
+    display: none; 
+    position: fixed;
+    z-index: 1000; /* Nằm trên cùng, cao hơn cả .pass */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); 
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 60px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%; 
+    max-width: 400px; 
+    text-align: center;
+    animation: fadeIn 0.3s;
+}
+
+.modal-header {
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    color: #4a4a4a;
+}
+.modal-title {
+    font-size: 45px;
+    font-weight: bold;
+    color: rgba(255, 0, 128, 0.7); 
+}
+
+#modalMessage {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.modal-button {
+    background-color: #f79eff; 
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.modal-button:hover {
+    background-color: #ff0080;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
