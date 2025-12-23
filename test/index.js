@@ -1,5 +1,5 @@
 const CORRECT_PASSWORD = "phanh"; // Mật khẩu đúng
-const TARGET_URL = "../html/container.html"; // Trang đích
+const TARGET_URL = "./html/container.html"; // Trang đích
 
 const passwordForm = document.getElementById('passwordForm');
 const passwordInput = document.getElementById('passwordInput');
