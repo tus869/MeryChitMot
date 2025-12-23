@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas</title>
+    <link rel="stylesheet" href="../css/container.css">
+</head>
+<body>
+    <div class="container">
+        <!-- video -->
+        <video src="../ảnh & video/Pin page.mp4" type="video/mp4" autoplay muted loop playsinline></video>
+        <!-- tuyết -->
+        <canvas id="snowfall"></canvas>
+        <!-- thư -->
+        <div class="box" id="mainBox">
+            
+            <!-- chữ trên cùng -->
+            <div id="christmasMessage" class="christmas-message">Merry Christmas</div>
+            
+            <!-- ảnh giữa -->
+            <div class="image-container">
+                <img src="../ảnh & video/cây_thông.jpg" alt="Cây thông Giáng Sinh" class="tree-icon">
+            </div>
+            <p class="greeting-text">Hi 🥰</p>
+            
+            <!-- mở thiệp -->
+            <button class="styled-button" id="showCardButton">Tiếp tục</button>
+        </div>
+        
+        <!-- pass -->
+        <div class="pass" id="mk">
+            <label for="pass">hi</label>
+            <input type="text" placeholder="Nhập mật khẩu...">
+            <button class="pass" id="nút"></button>
+        </div>
+
+
+        <!-- thẻ khi ấn nút xem thư gửi -->
+        <div class="card" id="card">
+            <h2>Chúc Ph.Anh Giáng Sinh VV! 🦌🎄</h2>
+            <p>
+                Chúc PAnh mùa Noel này:<br>
+                🍰 Ăn mãi không béo<br>
+                💰 Tiền tiêu không hết<br>
+                🧸 Sớm có "gấu" 37 độ để ôm :>
+            </p>
+            <a href="../test/footer.html">
+                <button id="closeCardButton">Tiếp Tục</button>
+             </a>
+        </div>
+    </div>
+
+    <script src="../js/container.js"></script>
+</body>
+</html>

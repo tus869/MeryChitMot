@@ -1,0 +1,274 @@
+/* --- 1. RESET VÀ CẤU TRÚC CHUNG --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden; 
+    font-family: Arial, sans-serif;
+    background-color: #ff00d0; 
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* --- 2. LỚP NỀN (VIDEO & CANVAS) --- */
+video, canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+video {
+    z-index: 0; 
+}
+
+canvas {
+    z-index: 1; 
+}
+
+/* --- 3. HỘP NỘI DUNG CHÍNH (MAIN BOX) --- */
+.box {
+    width: 400px;
+    padding: 20px;
+    background: linear-gradient(135deg, #ffccd5, #ff90b3);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    z-index: 2; 
+    transition: opacity 0.5s ease-in-out; 
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 4. THÔNG ĐIỆP LỚN (MERRY CHRISTMAS) --- */
+.christmas-message {
+    font-size: 80px;
+    font-family: 'Merry', sans-serif; 
+    color: rgb(241, 60, 60);
+    font-weight: bold;
+    text-align: center;
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    animation: glow 1.5s ease-in-out infinite;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+@keyframes glow {
+    20% { text-shadow: 0 0 5px rgb(255, 0, 102), 0 0 10px rgba(250, 91, 176, 0.525), 0 0 15px rgba(255, 106, 161, 0.547); }
+    50%{ text-shadow: 0 0 10px rgb(255, 0, 212), 0 0 15px rgba(255, 122, 233, 0.641), 0 0 25px rgba(255, 0, 0, 0.696);; }
+    80%{ text-shadow: 0 0 5px rgb(255, 0, 132), 0 0 10px rgba(255, 122, 191, 0.641), 0 0 20px rgba(255, 65, 163, 0.696);; }
+}
+
+/* --- 5. HÌNH ẢNH & NỘI DUNG --- */
+.image-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 15px;
+    border: 5px solid white;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image-container img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.greeting-text {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.styled-button {
+    background: #ff006e;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.styled-button:hover {
+    background-color: #ff4080; 
+    transform: scale(1.1); 
+    box-shadow: 0 0 15px rgba(255, 0, 128, 0.7); 
+}
+
+/* mật khẩu */
+.pass {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #ffffff, #ffccd5);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(255, 0, 102, 0.4); 
+    z-index: 999;
+    text-align: center;
+    max-width: 90%;
+    min-width: 300px;
+    animation: popIn 0.5s ease-out forwards;
+}
+
+.pass.show{
+    display: block;
+}
+
+.pass.h2 {
+    font-size: 36px;
+    font-family: 'Merry', sans-serif;
+    color: #ff006e;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+.pass p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.pass button {
+    background: #ff006e;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.pass button:hover {
+    background-color: #ff4080;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 0, 128, 0.7); 
+}
+
+/* --- 6. THIỆP CHÚC MỪNG (CARD) --- */
+.card {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #ffffff, #ffccd5);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(255, 0, 102, 0.4); 
+    z-index: 999;
+    text-align: center;
+    max-width: 90%;
+    min-width: 300px;
+    animation: popIn 0.5s ease-out forwards;
+}
+
+.card.show {
+    display: block;
+}
+
+.card h2 {
+    font-size: 36px;
+    font-family: 'Merry', sans-serif;
+    color: #ff006e;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+.card p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.card button {
+    background: #ff006e;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.card button:hover {
+    background-color: #ff4080;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 0, 128, 0.7); 
+}
+
+@keyframes popIn {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* --- 7. HIỆU ỨNG CHUỘT (HEART TRAIL) --- */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    color: rgb(255, 0, 195);
+    animation: fadeOut 1s ease-out;
+    pointer-events: none; 
+    transform: translate(-50%, -50%); 
+}
+@keyframes fadeOut {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(2); }
+}
+
+/* --- 8. ĐIỀU CHỈNH RESPONSIVE --- */
+@media (max-width: 768px) {
+    .christmas-message {
+        font-size: 40px; 
+    }
+    .box {
+        width: 90%;
+    }
+    .card {
+        padding: 30px;
+    }
+    .card h2 {
+        font-size: 30px;
+    }
+}

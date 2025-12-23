@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P.Anh</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    
+<style>
+body {
+    margin: 0; 
+    overflow: hidden; 
+    background-color: #000000;
+    color: #14e0ff; 
+    font-family: Arial, sans-serif;
+}
+
+#background-image { 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-image: url('data:image/jpeg;base64,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');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0.7) contrast(1.2);
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#canvas-container { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#canvas-container.active {
+    opacity: 1;
+}
+
+.input_video { 
+    display: none; 
+} 
+
+#camera-preview { 
+    position: fixed; 
+    top: 20px; 
+    right: 20px; 
+    z-index: 10;
+    border: 2px solid white; 
+    border-radius: 5px; 
+    opacity: 0;
+    width: 100px; 
+    height: 75px;
+    transition: opacity 0.5s ease-in-out;
+    display: none;
+}
+
+#camera-preview.active {
+    opacity: 0.8;
+    display: block;
+}
+
+#status {
+    position: fixed; 
+    bottom: 10px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    z-index: 10;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+#btnStart {
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    padding: 15px 30px;
+    font-size: 1.5em;
+    cursor: pointer;
+    background-color: #38acff;
+    color: #000000;
+    border: 3px solid #2fff00;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 242, 0, 0.861);
+    transition: all 0.3s ease;
+}
+
+#btnStart:hover {
+    box-shadow: 0 8px 16px 0 rgba(255, 0, 0, 0.6);
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+#error-log {
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    z-index: 100;
+    background: rgba(255, 0, 0, 0.8); 
+    color: white;
+    padding: 10px; 
+    max-height: 100px; 
+    overflow-y: scroll;
+    display: none; 
+    width: 100%;
+}
+
+#video-status {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    padding: 8px 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #FFA500;
+}
+</style>
+    
+</head>
+<body>
+    <div id="background-image"></div>
+    <div id="canvas-container"></div> 
+    <video class="input_video"></video>
+    <canvas id="camera-preview" width="100" height="75"></canvas>
+    <div id="status">🎄 P.Anh Giáng Sinh VV 🎄</div>
+    <button id="btnStart" onclick="startSystem()">Ấn vào đây</button>
+    <pre id="error-log"></pre>
+    
+    <script>
+        const MUSIC_URL = "./audio.mp3";
+        let bgMusic = new Audio(MUSIC_URL);
+        bgMusic.loop = true; 
+        bgMusic.volume = 1.0;
+
+        const loader = new THREE.TextureLoader();
+        const photoFiles = ['./pa1.jpg', './pa2.jpg', './pa3.jpg', './pa4.jpg', './pa5.jpg'];
+        const photoTextures = [];
+        photoFiles.forEach((f, i) => photoTextures[i] = loader.load(f));
+
+        function createCustomTexture(type) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128; canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            const cx = 64, cy = 64;
+
+            if (type === 'gold_glow') {
+                const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 40);
+                grd.addColorStop(0, '#FFFFFF'); 
+                grd.addColorStop(0.2, '#FFFFE0'); 
+                grd.addColorStop(0.5, '#FFD700');
+                grd.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = grd; ctx.fillRect(0,0,128,128);
+
+            } else if (type === 'red_light') {
+                const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 50);
+                grd.addColorStop(0, '#FFAAAA'); 
+                grd.addColorStop(0.3, '#FF0000'); 
+                grd.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = grd; ctx.fillRect(0,0,128,128);
+
+            } else if (type === 'gift_red') {
+                ctx.fillStyle = '#D32F2F'; 
+                ctx.fillRect(20, 20, 88, 88);
+                ctx.fillStyle = '#FFD700'; 
+                ctx.fillRect(54, 20, 20, 88); 
+                ctx.fillRect(20, 54, 88, 20); 
+                ctx.strokeStyle = "rgba(0,0,0,0.3)"; 
+                ctx.lineWidth=2; 
+                ctx.strokeRect(20,20,88,88);
+            }
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        const textures = {
+            gold: createCustomTexture('gold_glow'),
+            red: createCustomTexture('red_light'),
+            gift: createCustomTexture('gift_red')
+        };
+
+        const CONFIG = {
+            goldCount: 2000, 
+            redCount: 300, 
+            giftCount: 150, 
+            explodeRadius: 65,  
+            photoOrbitRadius: 25,
+            treeHeight: 70,
+            treeBaseRadius: 35
+        };
+
+        let scene, camera, renderer;
+        let groupGold, groupRed, groupGift; 
+        let photoMeshes = [];   
+        let titleMesh, starMesh;
+        
+        let state = 'TREE'; 
+        let selectedIndex = 0;
+        let handX = 0.5;
+
+        function init3D() {
+            const container = document.getElementById('canvas-container');
+            scene = new THREE.Scene();
+            scene.background = null; 
+            scene.fog = new THREE.FogExp2(0x000000, 0.002);
+
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+            camera.position.z = 100;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); 
+            renderer.setClearColor(0x000000, 0);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+            
+            groupGold = createParticleSystem('gold', CONFIG.goldCount, 2.0);
+            groupRed = createParticleSystem('red', CONFIG.redCount, 3.5); 
+            groupGift = createParticleSystem('gift', CONFIG.giftCount, 3.0); 
+
+            createPhotos();
+            createDecorations();
+            animate();
+        }
+
+        function createParticleSystem(type, count, size) {
+            const pPositions = [];
+            const pExplodeTargets = [];
+            const pTreeTargets = [];
+            
+            for(let i=0; i<count; i++) {
+                const h = Math.random() * CONFIG.treeHeight; 
+                const y = h - CONFIG.treeHeight / 2;
+                
+                let radiusRatio = (type === 'gold') ? Math.sqrt(Math.random()) : 0.9 + Math.random()*0.1;
+                
+                const maxR = (1 - (h / CONFIG.treeHeight)) * CONFIG.treeBaseRadius;
+                const r = maxR * radiusRatio; 
+                const theta = Math.random() * Math.PI * 2;
+                
+                const tx = r * Math.cos(theta);
+                const tz = r * Math.sin(theta);
+                pTreeTargets.push(tx, y, tz);
+
+                const u = Math.random();
+                const v = Math.random();
+                const phi = Math.acos(2 * v - 1);
+                const lam = 2 * Math.PI * u;
+                
+                let radMult = (type === 'gift') ? 1.2 : 1.0;
+                const rad = CONFIG.explodeRadius * Math.cbrt(Math.random()) * radMult;
+
+                const ex = rad * Math.sin(phi) * Math.cos(lam);
+                const ey = rad * Math.sin(phi) * Math.sin(lam);
+                const ez = rad * Math.cos(phi);
+                pExplodeTargets.push(ex, ey, ez);
+
+                pPositions.push(tx, y, tz);
+            }
+
+            const geo = new THREE.BufferGeometry();
+            geo.setAttribute('position', new THREE.Float32BufferAttribute(pPositions, 3));
+            geo.userData = { tree: pTreeTargets, explode: pExplodeTargets };
+
+            const mat = new THREE.PointsMaterial({
+                size: size,
+                map: textures[type],
+                transparent: true, 
+                opacity: 1.0,
+                blending: (type === 'gift') ? THREE.NormalBlending : THREE.AdditiveBlending, 
+                depthWrite: false,
+                sizeAttenuation: true
+            });
+
+            const points = new THREE.Points(geo, mat);
+            scene.add(points);
+            return points;
+        }
+
+        function createPhotos() {
+            const geo = new THREE.PlaneGeometry(8, 8);
+            const borderGeo = new THREE.PlaneGeometry(9, 9); 
+            const borderMat = new THREE.MeshBasicMaterial({ color: 0xFFD700 }); 
+
+            for(let i=0; i<5; i++) {
+                const mat = new THREE.MeshBasicMaterial({ 
+                    map: photoTextures[i], side: THREE.DoubleSide 
+                });
+                const mesh = new THREE.Mesh(geo, mat);
+                const border = new THREE.Mesh(borderGeo, borderMat);
+                border.position.z = -0.1; 
+                mesh.add(border);
+                
+                mesh.visible = false;
+                mesh.scale.set(0,0,0);
+                scene.add(mesh);
+                photoMeshes.push(mesh);
+            }
+        }
+
+        function createDecorations() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1024; canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+            ctx.font = 'bold italic 90px "Times New Roman"';
+            ctx.fillStyle = '#FFD700'; 
+            ctx.textAlign = 'center';
+            ctx.shadowColor = "#FF0000"; 
+            ctx.shadowBlur = 40; 
+            ctx.fillText("MERRY CHRISTMAS", 512, 130);
+            
+            const tex = new THREE.CanvasTexture(canvas);
+            const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, blending: THREE.AdditiveBlending });
+            titleMesh = new THREE.Mesh(new THREE.PlaneGeometry(60, 15), mat);
+            titleMesh.position.set(0, 50, 0);
+            scene.add(titleMesh);
+
+            const starCanvas = document.createElement('canvas');
+            starCanvas.width = 128; starCanvas.height = 128;
+            const sCtx = starCanvas.getContext('2d');
+            sCtx.fillStyle = "#FFFF00"; 
+            sCtx.shadowColor="#FFF"; 
+            sCtx.shadowBlur=20;
+            sCtx.beginPath();
+            const cx=64, cy=64, outer=50, inner=20;
+            for(let i=0; i<5; i++){
+                sCtx.lineTo(cx + Math.cos((18+i*72)/180*Math.PI)*outer, cy - Math.sin((18+i*72)/180*Math.PI)*outer);
+                sCtx.lineTo(cx + Math.cos((54+i*72)/180*Math.PI)*inner, cy - Math.sin((54+i*72)/180*Math.PI)*inner);
+            }
+            sCtx.closePath(); 
+            sCtx.fill();
+            const starTex = new THREE.CanvasTexture(starCanvas);
+            const starMat = new THREE.MeshBasicMaterial({ map: starTex, transparent: true, blending: THREE.AdditiveBlending });
+            starMesh = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), starMat);
+            starMesh.position.set(0, CONFIG.treeHeight/2 + 2, 0);
+            scene.add(starMesh);
+        }
+
+        function updateParticleGroup(group, targetState, speed, handRotY, time, isBlinking) {
+            const positions = group.geometry.attributes.position.array;
+            const targetKey = (targetState === 'TREE') ? 'tree' : 'explode';
+            const targets = group.geometry.userData[(targetState === 'PHOTO') ? 'explode' : targetKey];
+
+            for(let i=0; i<positions.length; i++) {
+                positions[i] += (targets[i] - positions[i]) * speed;
+            }
+            group.geometry.attributes.position.needsUpdate = true;
+            
+            if (targetState === 'TREE') {
+                group.rotation.y += 0.003;
+                
+                if(isBlinking) {
+                    const scale = 1 + Math.sin(time * 5) * 0.2;
+                    group.scale.set(scale, scale, scale);
+                } else {
+                    group.scale.set(1,1,1);
+                }
+            } else {
+                group.scale.set(1,1,1);
+                group.rotation.y += (handRotY - group.rotation.y) * 0.05;
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+            const speed = 0.06;
+            const handRotY = (handX - 0.5) * 2.5;
+
+            updateParticleGroup(groupGold, state, speed, handRotY, time, false);
+            updateParticleGroup(groupRed, state, speed, handRotY, time, true); 
+            updateParticleGroup(groupGift, state, speed, handRotY, time, false);
+
+            photoMeshes.forEach((mesh, i) => {
+                if(!mesh.material.map && photoTextures[i]) {
+                    mesh.material.map = photoTextures[i]; 
+                    mesh.material.needsUpdate = true;
+                }
+            });
+
+            if (state === 'TREE') {
+                titleMesh.visible = true; 
+                starMesh.visible = true;
+                titleMesh.scale.lerp(new THREE.Vector3(1,1,1), 0.1);
+                starMesh.rotation.z -= 0.02;
+                photoMeshes.forEach(m => { 
+                    m.scale.lerp(new THREE.Vector3(0,0,0), 0.1); 
+                    m.visible = false; 
+                });
+
+            } else if (state === 'EXPLODE') {
+                titleMesh.visible = false; 
+                starMesh.visible = false;
+                
+                const baseAngle = groupGold.rotation.y; 
+                const angleStep = (Math.PI * 2) / 5;
+                let bestIdx = 0; 
+                let maxZ = -999;
+
+                photoMeshes.forEach((mesh, i) => {
+                    mesh.visible = true;
+                    const angle = baseAngle + i * angleStep;
+                    const x = Math.sin(angle) * CONFIG.photoOrbitRadius;
+                    const z = Math.cos(angle) * CONFIG.photoOrbitRadius;
+                    const y = Math.sin(time + i) * 3; 
+
+                    mesh.position.lerp(new THREE.Vector3(x, y, z), 0.1);
+                    mesh.lookAt(camera.position);
+
+                    if (z > maxZ) { maxZ = z; bestIdx = i; }
+                    
+                    if (z > 5) { 
+                        const distScale = 1.0 + (z / CONFIG.photoOrbitRadius) * 0.8; 
+                        mesh.scale.lerp(new THREE.Vector3(distScale, distScale, distScale), 0.1);
+                    } else {
+                        mesh.scale.lerp(new THREE.Vector3(0.6, 0.6, 0.6), 0.1);
+                    }
+                });
+                selectedIndex = bestIdx;
+
+            } else if (state === 'PHOTO') {
+                photoMeshes.forEach((mesh, i) => {
+                    if (i === selectedIndex) {
+                        mesh.position.lerp(new THREE.Vector3(0, 0, 60), 0.1);
+                        mesh.scale.lerp(new THREE.Vector3(5, 5, 5), 0.1);
+                        mesh.lookAt(camera.position);
+                        mesh.rotation.z = 0;
+                    } else {
+                        mesh.scale.lerp(new THREE.Vector3(0,0,0), 0.1);
+                    }
+                });
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        function startSystem() {
+            // Ẩn background image và hiển thị 3D canvas
+            const bgImage = document.getElementById('background-image');
+            const canvasContainer = document.getElementById('canvas-container');
+            const cameraPreview = document.getElementById('camera-preview');
+            
+            bgImage.style.opacity = '0';
+            setTimeout(() => {
+                bgImage.style.display = 'none';
+            }, 500);
+            
+            canvasContainer.classList.add('active');
+            cameraPreview.classList.add('active');
+            
+            document.getElementById('btnStart').style.display = 'none';
+            
+            bgMusic.play().catch(e => console.log("Lỗi phát nhạc:", e)); 
+            init3D();
+
+            const video = document.getElementsByClassName('input_video')[0];
+            const canvas = document.getElementById('camera-preview');
+            const ctx = canvas.getContext('2d');
+            const statusDiv = document.getElementById('status');
+            
+            let frameCnt = 0;
+            const hands = new Hands({
+                locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+            });
+            hands.setOptions({ 
+                maxNumHands: 1, 
+                modelComplexity: 0, 
+                minDetectionConfidence: 0.5, 
+                minTrackingConfidence: 0.5 
+            });
+
+            hands.onResults(results => {
+                ctx.clearRect(0,0,100,75); 
+                if (results.image) {
+                    ctx.drawImage(results.image, 0, 0, 100, 75);
+                }
+
+                if(results.multiHandLandmarks.length > 0) {
+                    const lm = results.multiHandLandmarks[0];
+                    handX = lm[9].x; 
+
+                    const tips = [8,12,16,20]; 
+                    const wrist = lm[0];
+                    let openDist = 0;
+                    tips.forEach(i => openDist += Math.hypot(lm[i].x-wrist.x, lm[i].y-wrist.y));
+                    const avgDist = openDist / 4;
+                    const pinchDist = Math.hypot(lm[4].x-lm[8].x, lm[4].y-lm[8].y); 
+
+                    if (avgDist < 0.25) { 
+                        state = 'TREE'; 
+                        statusDiv.innerText = "✊ Thu Cây Thông"; 
+                        statusDiv.style.color = "#FFD700";
+                    } else if (pinchDist < 0.05) {
+                        state = 'PHOTO';
+                        statusDiv.innerText = "👌 Xem Ảnh"; 
+                        statusDiv.style.color = "#00FFFF";
+                    } else {
+                        state = 'EXPLODE'; 
+                        statusDiv.innerText = "🖐 Bung Quà & Ảnh"; 
+                        statusDiv.style.color = "#FFA500";
+                    }
+                } else {
+                    state = 'TREE'; 
+                    statusDiv.innerText = "🎄 P.Anh Giáng Sinh VV 🎄"; 
+                    statusDiv.style.color = "#FFF";
+                }
+            });
+
+            const cameraUtils = new Camera(video, {
+                onFrame: async () => {
+                    frameCnt++; 
+                    if(frameCnt%3 !== 0) return; 
+                    await hands.send({image: video}); 
+                }, 
+                width: 320, 
+                height: 240
+            });
+            
+            try {
+                cameraUtils.start();
+            } catch (e) {
+                logError("Lỗi truy cập camera: " + e.message);
+                statusDiv.innerText = "❌ LỖI: Không truy cập được camera.";
+                statusDiv.style.color = "#F00";
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            if(camera) { 
+                camera.aspect = window.innerWidth/window.innerHeight; 
+                camera.updateProjectionMatrix(); 
+                renderer.setSize(window.innerWidth, window.innerHeight); 
+            }
+        });
+
+        function logError(e) { 
+            const errorLog = document.getElementById('error-log');
+            errorLog.style.display='block'; 
+            errorLog.innerText+=e+"\n"; 
+        }
+    </script>
+</body>
+</html>
